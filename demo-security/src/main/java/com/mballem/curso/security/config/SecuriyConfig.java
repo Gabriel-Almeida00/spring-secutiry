@@ -21,6 +21,13 @@ public class SecuriyConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**").permitAll()
                 .antMatchers("/", "/home").permitAll()
 
+                //acessos privados admin
+                .antMatchers("/u/**").hasAuthority("ADMIN")
+
+                //acessos privados médicos
+                .antMatchers("/medicos/**").hasAuthority("MEDICO")
+
+
                 .anyRequest().authenticated()
                 .and()
                     .formLogin()
@@ -30,7 +37,10 @@ public class SecuriyConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .logout()
-                    .logoutSuccessUrl("/");
+                    .logoutSuccessUrl("/")
+                .and()
+                    .exceptionHandling()
+                    .accessDeniedPage("/acesso-negado");
     }
 
         @Override
